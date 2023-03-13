@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "prettier": "prettier --write src/*",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -o docs-build"
   },
   "dependencies": {
     "@iconify/react": "^4.1.0",
