@@ -1,5 +1,4 @@
 import { FC, memo, useCallback, useState } from 'react'
-import debounce from 'lodash.debounce'
 
 import styles from './main.module.scss'
 
@@ -13,15 +12,10 @@ const MainPage: FC<MainPagePropsType> = ({ data }) => {
     const [formFields, setFormFields] = useState({})
     const [disabled, setDisabled] = useState(true)
 
-    const debouncedSetState = debounce((values: string[]) => {
-        setFormFields(values)
-        setDisabled(values.length <= 0 || values.some((val) => !val))
-        console.log(formFields)
-    }, 300)
-
     const onChange = useCallback((fieldValues: Record<string, string>) => {
         const values = Object.values(fieldValues)
-        debouncedSetState(values)
+        setFormFields(values)
+        setDisabled(values.length <= 0 || values.some((val) => !val))
     }, [])
 
     return (

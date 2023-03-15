@@ -2,11 +2,7 @@ import { memo, ChangeEvent, useCallback, FC, useState } from 'react'
 
 import { Input } from '~/components/Input'
 
-import {
-    getInputType,
-    constructInitialState,
-    getPlaceHolder,
-} from './lib'
+import { getInputType, constructInitialState, getPlaceHolder } from './lib'
 
 import type { InputRendererPropsType } from './types'
 
@@ -22,22 +18,32 @@ const InputRenderer: FC<InputRendererPropsType> = ({
 
     const handleChangeInput = useCallback(
         (e: ChangeEvent<HTMLInputElement>) => {
-            setFieldValues((prev) => ({
-                ...prev,
-                [e.target.id]: e.target.value,
-            }))
+            setFieldValues((prev) => {
+                const newFieldValues = {
+                    ...prev,
+                    [e.target.id]: e.target.value,
+                }
 
-            onChange(fieldValues)
+                onChange(newFieldValues)
+
+                return newFieldValues
+            })
         },
         [onChange]
     )
 
     const handleClearInput = useCallback((key: string) => {
-        setFieldValues((prev) => ({
-            ...prev,
-            [key]: '',
-        }))
-    }, [])
+        setFieldValues((prev) => {
+            const newFieldValues ={
+                ...prev,
+                [key]: '',
+            };
+
+            onChange(newFieldValues)
+
+            return newFieldValues
+        })
+    }, [onChange])
 
     const fields = inputRenderMap.map(({ id, type, defaultValue, label }) => (
         <Input
